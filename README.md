@@ -8,7 +8,7 @@ This repo use `pytest` and `docker` to test the basic functionality (CRUD) of Ca
 
 #### Setup and Running
 
-To run the test you must have python, pip, docker, virtualbox, and docker-machine on OSX running. Please see [here](https://docs.docker.com/machine/install-machine/#installing-machine-directly) to setup docker-machine on OSX. Next, you will need to create a new docker-machine, clone this repo, install and activate virtualenv, install the requirements, pull down the [Cassandra docker image](https://hub.docker.com/_/cassandra/), then run the tests.
+To run the test you must have python, pip, docker, virtualbox, and docker-machine on OSX running. Please see [here](https://docs.docker.com/machine/install-machine/#installing-machine-directly) to setup docker-machine on OSX. Next, you will need to create a new docker-machine, clone this repo, install and activate virtualenv, install the requirements, pull down the [Cassandra docker image](https://hub.docker.com/_/cassandra/), then run the tests. `run.sh` will handle all the setup and the running of the tests.
 
 ```
 # Create new docker-machine
@@ -18,6 +18,9 @@ eval $(docker-machine env default --shell=bash)
 # Clone and run
 git clone https://github.com/korry8911/cassandra_test.git
 sh ./cassandra_test/run.sh
+
+# To run the tests again (don't re-run with run.sh)
+pytest ./cassandra_test/test.py -s
 ```
 
 ### Outline of Test Cases
