@@ -89,6 +89,8 @@ def insert_updated_data_base_table(session, data_to_update):
     time.sleep(2)
     return data
 
+# Cassandra Cluster
+
 class CassandraCluster:
     def __init__(self):
         self.cassandra_host = ''
@@ -121,6 +123,8 @@ class CassandraCluster:
     def session(self):
         return Cluster([self.cassandra_host]).connect()
 
+# Cassandra cluster fixture
+
 @pytest.fixture
 def cassandra_cluster(request):
     cluster = CassandraCluster()
@@ -129,6 +133,7 @@ def cassandra_cluster(request):
     cluster.wait_until_connected()
     request.addfinalizer(cluster.destroy_cluster)
     return cluster
+    
 ### Tests
 
 @pytest.mark.timeout(15)
