@@ -15,17 +15,9 @@ To run the test you must have python, pip, docker, virtualbox, and docker-machin
 docker-machine create --driver virtualbox default
 eval $(docker-machine env default --shell=bash)
 
-# Setup environment
+# Clone and run
 git clone https://github.com/korry8911/cassandra_test.git
-cd cassandra_test
-pip install virtualenv
-virtualenv venv
-source ./venv/bin/activate
-pip install -r ./requirements.txt
-docker pull cassandra:latest
-
-# Run the tests
-pytest test.py -s
+sh ./cassandra_test/run.sh
 ```
 
 ### Outline of Test Cases
