@@ -1,8 +1,4 @@
-import pytest
-import docker
-import time
-import uuid
-import random, string
+import random, string, subprocess, uuid, time, docker, pytest
 from cassandra.cluster import Cluster
 from cassandra.query import BatchStatement, tuple_factory
 from cassandra import ConsistencyLevel
@@ -95,12 +91,15 @@ def insert_updated_data_base_table(session, data_to_update):
 
 class CassandraCluster:
     def __init__(self):
-        self.cassandra_host = '192.168.99.100'
+        self.cassandra_host = ''
         self.docker_client = docker.from_env()
 
     def create_cluster(self):
         self.docker_client.containers.run("cassandra:latest", network_mode='host', detach=True)
         return
+
+    def set_host_ip(self):
+        self.cassandra_host = subprocess.check_output(['docker-machine', 'ip']).rstrip()
 
     def destroy_cluster(self):
         for container in self.docker_client.containers.list():
@@ -125,8 +124,8 @@ class CassandraCluster:
 @pytest.fixture
 def cassandra_cluster(request):
     cluster = CassandraCluster()
-    cluster.destroy_cluster()
     cluster.create_cluster()
+    cluster.set_host_ip()
     cluster.wait_until_connected()
     request.addfinalizer(cluster.destroy_cluster)
     return cluster
